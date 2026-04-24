@@ -1,0 +1,6 @@
+{
+  "name": "AirDood",
+  "description": "Professional Neural Hand Tracking & Air Drawing System",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": []
+}
