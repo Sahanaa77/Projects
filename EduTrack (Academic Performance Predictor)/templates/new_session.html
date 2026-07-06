@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Session</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 60%, #dbeafe 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: white; border-radius: 20px; padding: 40px; width: 100%; max-width: 480px; box-shadow: 0 8px 32px rgba(59,130,246,0.15); }
+    .back { font-size: 13px; color: #3b82f6; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 22px; font-weight: 600; }
+    .back:hover { text-decoration: underline; }
+    .logo { text-align: center; margin-bottom: 28px; }
+    .logo .icon { font-size: 44px; display: block; margin-bottom: 8px; }
+    .logo h1 { font-size: 22px; color: #1e3a5f; font-weight: 700; }
+    .logo p { font-size: 13px; color: #64748b; margin-top: 4px; }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    input, select { width: 100%; padding: 12px 16px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; color: #1e293b; background: #f8fafc; }
+    input:focus, select:focus { outline: none; border-color: #3b82f6; background: white; }
+    .hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+    .btn { width: 100%; padding: 13px; background: #3b82f6; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+    .btn:hover { background: #2563eb; }
+    .error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; }
+    #subject-fields { margin-top: 16px; }
+    .subject-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .subject-num { font-size: 13px; font-weight: 700; color: #3b82f6; min-width: 22px; }
+    .subject-row input { margin: 0; }
+    .divider { height: 1px; background: #e2e8f0; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <a href="/dashboard" class="back">← Back to Dashboard</a>
+    <div class="logo">
+      <span class="icon">➕</span>
+      <h1>New Academic Session</h1>
+      <p>Give this session a name and set up your subjects</p>
+    </div>
+
+    {% if error %}
+    <div class="error">⚠️ {{ error }}</div>
+    {% endif %}
+
+    <form method="POST" action="/new-session" id="sessionForm">
+      <div class="form-group">
+        <label>Session Name</label>
+        <input type="text" name="session_name" placeholder="e.g. Semester 1, Jan 2026, Mid Term..." required autofocus/>
+        <div class="hint">This name will appear on your dashboard</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="form-group">
+        <label>Number of Subjects</label>
+        <select name="subject_count" id="subjectCount" onchange="generateFields()">
+          <option value="">-- Select --</option>
+          {% for n in range(1, 9) %}
+          <option value="{{ n }}">{{ n }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div id="subject-fields"></div>
+
+      <button type="submit" class="btn" id="saveBtn" style="display:none">
+        Create Session →
+      </button>
+    </form>
+  </div>
+
+  <script>
+    function generateFields() {
+      const count = parseInt(document.getElementById('subjectCount').value);
+      const container = document.getElementById('subject-fields');
+      container.innerHTML = '';
+      if (!count) return;
+      for (let i = 1; i <= count; i++) {
+        container.innerHTML += `
+          <div class="subject-row">
+            <span class="subject-num">${i}.</span>
+            <input type="text" name="subject_${i}" placeholder="Subject name (e.g. Maths)" required/>
+          </div>`;
+      }
+      document.getElementById('saveBtn').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Sahana Supermarket – Your freshest everyday stop for groceries, dairy, bakery, beverages, and more. Shop online with ease." />
+  <title>Sahana Supermarket – Fresh Every Day</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="announce-bar" id="announceBar">
+    <span>🎉 Grand Sale! Up to <strong>40% OFF</strong> on selected items this week only!</span>
+    <button class="announce-close" onclick="document.getElementById('announceBar').style.display='none'">✕</button>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo" id="logo-home">
+        <div class="logo-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="16" fill="url(#logoGrad)" />
+            <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Outfit" font-weight="900"
+              font-size="14" fill="white">S7</text>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
+                <stop offset="0%" stop-color="#2ecc71" />
+                <stop offset="100%" stop-color="#27ae60" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Sahana<span class="logo-accent"></span> Supermarket</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#categories" class="nav-link">Categories</a>
+        <a href="#deals" class="nav-link">Deals</a>
+        <a href="#products" class="nav-link">Products</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="search-wrapper">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search products…"
+            oninput="filterProducts()" />
+          <span class="search-icon">🔍</span>
+        </div>
+        <button class="cart-btn" id="cartBtn" onclick="toggleCart()" aria-label="Shopping Cart">
+          🛒
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== CART DRAWER ===== -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+    <div class="cart-header">
+      <h2>🛒 Your Cart</h2>
+      <button class="cart-close-btn" onclick="toggleCart()" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <div class="cart-empty-icon">🛍️</div>
+        <p>Your cart is empty</p>
+        <span>Add some fresh items!</span>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">₹0.00</span>
+      </div>
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">₹0.00</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">Checkout Now →</button>
+      <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+    </div>
+  </aside>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <img src="images/hero.png" alt="Sa7 Supermarket fresh produce" class="hero-img" />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">🌿 100% Fresh &amp; Organic</div>
+      <h1 class="hero-title">Welcome to <span class="hero-brand">Sa7</span><br />Supermarket</h1>
+      <p class="hero-sub">Your one-stop destination for fresh groceries, premium dairy, artisan bakery, and everything
+        your family needs — delivered with care.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn-primary" id="shopNowBtn">Shop Now</a>
+        <a href="#deals" class="btn-secondary" id="viewDealsBtn">View Deals</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">5000+</span><span class="stat-label">Products</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">50K+</span><span class="stat-label">Happy Customers</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">12+</span><span class="stat-label">Years of Trust</span></div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES STRIP ===== -->
+  <section class="features-strip">
+    <div class="features-container">
+      <div class="feature-item"
+        onclick="openModal('Delivery', 'We offer free delivery on all orders above ₹500. Orders are delivered within 2 hours of placement.')"
+        style="cursor: pointer;">
+        <div class="feature-icon">🚚</div>
+        <div>
+          <strong>Free Delivery</strong>
+          <span>On orders above ₹500</span>
+        </div>
+      </div>
+      <div class="feature-item"
+        onclick="openModal('Freshness Guarantee', 'Our products are sourced directly from local organic farms every morning to ensure maximum freshness.')"
+        style="cursor: pointer;">
+        <div class="feature-icon">🌿</div>
+        <div>
+          <strong>100% Fresh</strong>
+          <span>Directly from farms</span>
+        </div>
+      </div>
+      <div class="feature-item"
+        onclick="openModal('Secure Payment', 'We support UPI, all major Credit/Debit Cards, Net Banking, and Cash on Delivery.')"
+        style="cursor: pointer;">
+        <div class="feature-icon">🔒</div>
+        <div>
+          <strong>Secure Payment</strong>
+          <span>UPI, Cards & COD</span>
+        </div>
+      </div>
+      <div class="feature-item"
+        onclick="openModal('Return Policy', 'Not satisfied? Return products no questions asked within 7 days. Fresh produce must be returned within 24 hours.')"
+        style="cursor: pointer;">
+        <div class="feature-icon">↩️</div>
+        <div>
+          <strong>Easy Returns</strong>
+          <span>Hassle-free 7-day returns</span>
+        </div>
+      </div>
+      <div class="feature-item"
+        onclick="openModal('24/7 Support', 'Call us anytime at +91 98765 43210 or email support@sa7supermarket.in for assistance.')"
+        style="cursor: pointer;">
+        <div class="feature-icon">🕐</div>
+        <div>
+          <strong>24/7 Support</strong>
+          <span>Always here for you</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES ===== -->
+  <section class="categories" id="categories">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Browse</span>
+        <h2 class="section-title">Shop by Category</h2>
+        <p class="section-sub">Explore our wide range of fresh and quality products</p>
+      </div>
+      <div class="categories-grid">
+        <div class="category-card" onclick="filterByCategory('fruits')" id="cat-fruits">
+          <div class="category-img-wrap">
+            <img src="images/fruits.png" alt="Fresh Fruits" />
+          </div>
+          <div class="category-info">
+            <h3>Fresh Fruits</h3>
+            <span>24 items</span>
+          </div>
+        </div>
+        <div class="category-card" onclick="filterByCategory('vegetables')" id="cat-vegetables">
+          <div class="category-img-wrap">
+            <img src="images/vegetables.png" alt="Vegetables" />
+          </div>
+          <div class="category-info">
+            <h3>Vegetables</h3>
+            <span>36 items</span>
+          </div>
+        </div>
+        <div class="category-card" onclick="filterByCategory('dairy')" id="cat-dairy">
+          <div class="category-img-wrap">
+            <img src="images/dairy.png" alt="Dairy & Eggs" />
+          </div>
+          <div class="category-info">
+            <h3>Dairy &amp; Eggs</h3>
+            <span>18 items</span>
+          </div>
+        </div>
+        <div class="category-card" onclick="filterByCategory('bakery')" id="cat-bakery">
+          <div class="category-img-wrap">
+            <img src="images/bakery.png" alt="Bakery" />
+          </div>
+          <div class="category-info">
+            <h3>Bakery</h3>
+            <span>22 items</span>
+          </div>
+        </div>
+        <div class="category-card" onclick="filterByCategory('beverages')" id="cat-beverages">
+          <div class="category-img-wrap">
+            <img src="images/beverages.png" alt="Beverages" />
+          </div>
+          <div class="category-info">
+            <h3>Beverages</h3>
+            <span>30 items</span>
+          </div>
+        </div>
+        <div class="category-card cat-all" onclick="filterByCategory('all')" id="cat-all">
+          <div class="category-img-wrap cat-all-inner">
+            <span>🛒</span>
+          </div>
+          <div class="category-info">
+            <h3>All Products</h3>
+            <span>View everything</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DEALS ===== -->
+  <section class="deals" id="deals">
+    <div class="deals-container">
+      <div class="deals-left">
+        <span class="section-tag tag-red">⚡ Flash Deals</span>
+        <h2>Today's<br />Best Offers</h2>
+        <p>Limited-time discounts on the freshest picks. Grab them before they're gone!</p>
+        <div class="countdown" id="countdown">
+          <div class="time-block"><span id="hours">08</span><label>Hours</label></div>
+          <div class="time-sep">:</div>
+          <div class="time-block"><span id="minutes">34</span><label>Mins</label></div>
+          <div class="time-sep">:</div>
+          <div class="time-block"><span id="seconds">59</span><label>Secs</label></div>
+        </div>
+        <a href="#products" class="btn-primary" id="shopDealsBtn">Shop All Deals</a>
+      </div>
+      <div class="deals-right">
+        <div class="deal-card" id="deal1">
+          <div class="deal-badge">40% OFF</div>
+          <div class="deal-emoji">🍎</div>
+          <h4>Premium Apple Box</h4>
+          <p>Kashmiri Red Apples — 1 kg fresh</p>
+          <div class="deal-prices">
+            <span class="deal-original">₹180</span>
+            <span class="deal-sale">₹108</span>
+          </div>
+          <button class="deal-add-btn" onclick="addToCartDeal('Premium Apple Box', 108, '🍎')" id="deal1Btn">Add to
+            Cart</button>
+        </div>
+        <div class="deal-card" id="deal2">
+          <div class="deal-badge">35% OFF</div>
+          <div class="deal-emoji">🥛</div>
+          <h4>Full Cream Milk</h4>
+          <p>Farm fresh — 2 litre pack</p>
+          <div class="deal-prices">
+            <span class="deal-original">₹120</span>
+            <span class="deal-sale">₹78</span>
+          </div>
+          <button class="deal-add-btn" onclick="addToCartDeal('Full Cream Milk', 78, '🥛')" id="deal2Btn">Add to
+            Cart</button>
+        </div>
+        <div class="deal-card" id="deal3">
+          <div class="deal-badge">25% OFF</div>
+          <div class="deal-emoji">🥖</div>
+          <h4>Artisan Sourdough</h4>
+          <p>Freshly baked daily loaf</p>
+          <div class="deal-prices">
+            <span class="deal-original">₹160</span>
+            <span class="deal-sale">₹120</span>
+          </div>
+          <button class="deal-add-btn" onclick="addToCartDeal('Artisan Sourdough', 120, '🥖')" id="deal3Btn">Add to
+            Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS ===== -->
+  <section class="products-section" id="products">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Fresh Picks</span>
+        <h2 class="section-title">Our Products</h2>
+        <p class="section-sub">Hand-picked fresh items available every day</p>
+      </div>
+
+      <div class="products-toolbar">
+        <div class="filter-chips" id="filterChips">
+          <button class="chip active" onclick="filterByCategory('all')" id="chip-all">All</button>
+          <button class="chip" onclick="filterByCategory('fruits')" id="chip-fruits">🍎 Fruits</button>
+          <button class="chip" onclick="filterByCategory('vegetables')" id="chip-vegetables">🥦 Vegetables</button>
+          <button class="chip" onclick="filterByCategory('dairy')" id="chip-dairy">🥛 Dairy</button>
+          <button class="chip" onclick="filterByCategory('bakery')" id="chip-bakery">🥖 Bakery</button>
+          <button class="chip" onclick="filterByCategory('beverages')" id="chip-beverages">🧃 Beverages</button>
+        </div>
+        <select class="sort-select" id="sortSelect" onchange="sortProducts()">
+          <option value="default">Sort: Featured</option>
+          <option value="priceLow">Price: Low to High</option>
+          <option value="priceHigh">Price: High to Low</option>
+          <option value="name">Name: A–Z</option>
+        </select>
+      </div>
+
+      <div class="products-grid" id="productsGrid">
+        <!-- JS renders product cards here -->
+      </div>
+
+      <div class="no-results" id="noResults" style="display:none">
+        <div>🔍</div>
+        <p>No products found. Try a different search!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="newsletter">
+    <div class="newsletter-container">
+      <div class="newsletter-content">
+        <div class="newsletter-icon">📬</div>
+        <h2>Get Exclusive Deals</h2>
+        <p>Subscribe and be the first to know about flash sales, seasonal offers, and new arrivals.</p>
+        <form class="newsletter-form" id="newsletterForm" onsubmit="subscribeNewsletter(event)">
+          <input type="email" id="emailInput" placeholder="Enter your email address…" required />
+          <button type="submit" id="subscribeBtn">Subscribe</button>
+        </form>
+        <p class="newsletter-note">No spam, ever. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="contact" id="contact">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-tag">Get In Touch</span>
+        <h2 class="section-title">Visit Us</h2>
+        <p class="section-sub">We'd love to see you in our store or answer any questions online</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card" id="contact-location"
+          onclick="openModal('Location', 'Sa7 Supermarket\nMain Bazaar Road, Near City Center Mall\nBangalore – 560001\n\n(Map opening simulated)')"
+          style="cursor: pointer;">
+          <div class="contact-icon">📍</div>
+          <h3>Our Location</h3>
+          <p>Sa7 Supermarket, Main Bazaar Road,<br />Near City Center Mall, Bangalore – 560001</p>
+        </div>
+        <div class="contact-card" id="contact-hours"
+          onclick="openModal('Store Hours', 'Monday – Saturday: 8:00 AM – 10:00 PM\nSunday: 9:00 AM – 9:00 PM\n\nPublic holidays may affect these hours.')"
+          style="cursor: pointer;">
+          <div class="contact-icon">🕐</div>
+          <h3>Store Hours</h3>
+          <p>Monday – Saturday: 8:00 AM – 10:00 PM<br />Sunday: 9:00 AM – 9:00 PM</p>
+        </div>
+        <div class="contact-card" id="contact-phone" onclick="window.location.href='tel:+919876543210'"
+          style="cursor: pointer;">
+          <div class="contact-icon">📞</div>
+          <h3>Call Us</h3>
+          <p>+91 98765 43210<br />+91 80 1234 5678</p>
+        </div>
+        <div class="contact-card" id="contact-email" onclick="window.location.href='mailto:support@sa7supermarket.in'"
+          style="cursor: pointer;">
+          <div class="contact-icon">✉️</div>
+          <h3>Email Us</h3>
+          <p>hello@sa7supermarket.in<br />support@sa7supermarket.in</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <circle cx="18" cy="18" r="18" fill="url(#footerLogoGrad)" />
+            <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Outfit" font-weight="900"
+              font-size="15" fill="white">S7</text>
+            <defs>
+              <linearGradient id="footerLogoGrad" x1="0" y1="0" x2="36" y2="36">
+                <stop offset="0%" stop-color="#2ecc71" />
+                <stop offset="100%" stop-color="#27ae60" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <span>Sa<strong>7</strong> Supermarket</span>
+        </div>
+        <p>Bringing freshness and quality to your table since 2013. Your family's trusted grocery partner.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook" id="social-fb"
+            onclick="showToast('Opening Facebook page...'); event.preventDefault();">f</a>
+          <a href="#" class="social-link" aria-label="Instagram" id="social-ig"
+            onclick="showToast('Opening Instagram...'); event.preventDefault();">📸</a>
+          <a href="#" class="social-link" aria-label="Twitter" id="social-tw"
+            onclick="showToast('Opening Twitter...'); event.preventDefault();">𝕏</a>
+          <a href="#" class="social-link" aria-label="WhatsApp" id="social-wa"
+            onclick="showToast('Opening WhatsApp chat...'); event.preventDefault();">💬</a>
+        </div>
+      </div>
+      <div class="footer-links-group">
+        <h4>Quick Links</h4>
+        <a href="#home">Home</a>
+        <a href="#categories">Categories</a>
+        <a href="#deals">Deals</a>
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-links-group">
+        <h4>Categories</h4>
+        <a href="#" onclick="filterByCategory('fruits')">Fresh Fruits</a>
+        <a href="#" onclick="filterByCategory('vegetables')">Vegetables</a>
+        <a href="#" onclick="filterByCategory('dairy')">Dairy &amp; Eggs</a>
+        <a href="#" onclick="filterByCategory('bakery')">Bakery</a>
+        <a href="#" onclick="filterByCategory('beverages')">Beverages</a>
+      </div>
+      <div class="footer-links-group">
+        <h4>Support</h4>
+        <a href="#"
+          onclick="openModal('FAQ', '1. How do I place an order?\nSimply add items to your cart and checkout.\n\n2. Do you deliver to my area?\nWe deliver all across Bangalore.'); event.preventDefault();">FAQ</a>
+        <a href="#"
+          onclick="openModal('Shipping Policy', 'We offer standard and express shipping. Standard shipping takes 1-2 days. Express delivers within 2 hours.'); event.preventDefault();">Shipping
+          Policy</a>
+        <a href="#"
+          onclick="openModal('Return Policy', 'You can return non-perishable items within 7 days. Perishable items (dairy, fruits, bakery) must be reported within 24 hours.'); event.preventDefault();">Return
+          Policy</a>
+        <a href="#"
+          onclick="openModal('Privacy Policy', 'We value your privacy. We do not sell your personal data to third parties.'); event.preventDefault();">Privacy
+          Policy</a>
+        <a href="#"
+          onclick="openModal('Terms of Service', 'By using Sa7 Supermarket, you agree to our standard terms and conditions of sale and delivery.'); event.preventDefault();">Terms
+          of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Sa7 Supermarket. All rights reserved. Made with ❤️ in India.</p>
+      <div class="payment-icons">
+        <span>💳</span><span>📱</span><span>🏧</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== MODAL ===== -->
+  <div class="modal-overlay" id="mainModalOverlay" onclick="closeModal()"></div>
+  <div class="modal" id="mainModal">
+    <div class="modal-header">
+      <h2 id="modalTitle">Modal Title</h2>
+      <button class="modal-close-btn" onclick="closeModal()" aria-label="Close modal">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      Modal content goes here...
+    </div>
+  </div>
+
+  <!-- ===== SCROLL TO TOP ===== -->
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"
+    aria-label="Scroll to top">↑</button>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
